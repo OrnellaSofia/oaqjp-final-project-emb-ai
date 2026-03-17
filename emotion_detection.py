@@ -14,7 +14,11 @@ def emotion_detection(text_to_analyze):
     }
     
     response = requests.post(url, headers=headers, json=payload)
-    
-    return response.json()
+    dict_response = response.json()
 
-print(emotion_detection("I am so upset"))
+    dominant_emotion = None
+    output_dict = dict_response["emotionPredictions"][0]["emotion"]
+    max_emotion = max(output_dict, key=output_dict.get)
+    output_dict["dominant_emotion"] = max_emotion
+
+    return output_dict
